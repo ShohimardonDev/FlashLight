@@ -2,6 +2,7 @@ package uz.ssh.flashcard
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.camera2.CameraManager
 import androidx.appcompat.app.AppCompatActivity
@@ -33,9 +34,21 @@ class MainActivity : AppCompatActivity() {
 
             if (isFlashlightOn) {
                 turnOffFlashlight()
+                button.setImageResource(R.drawable.turn_off)
                 isFlashlightOn = false
             } else {
                 turnOnFlashlight()
+                button.setImageResource(R.drawable.turn_on)
+
+
+                for (i in 0..100000) {
+
+                    turnOnFlashlight()
+
+                    Thread.sleep(3000)
+                    turnOffFlashlight()
+                    Thread.sleep(3000)
+                }
                 isFlashlightOn = true
             }
 
@@ -67,6 +80,7 @@ class MainActivity : AppCompatActivity() {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted, initialize camera manager
                 cameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
+
             } else {
                 // Permission denied, inform the user
                 Toast.makeText(
